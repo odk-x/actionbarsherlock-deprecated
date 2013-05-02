@@ -18,254 +18,259 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public abstract class SherlockListActivity extends ListActivity implements
-		OnCreatePanelMenuListener, OnPreparePanelListener,
-		OnMenuItemSelectedListener, OnActionModeStartedListener,
-		OnActionModeFinishedListener {
-	private ActionBarSherlock mSherlock;
+public abstract class SherlockListActivity extends ListActivity implements OnCreatePanelMenuListener, OnPreparePanelListener, OnMenuItemSelectedListener, OnActionModeStartedListener, OnActionModeFinishedListener {
+    private ActionBarSherlock mSherlock;
 
-	protected final ActionBarSherlock getSherlock() {
-		if (mSherlock == null) {
-			mSherlock = ActionBarSherlock.wrap(this,
-					ActionBarSherlock.FLAG_DELEGATE);
-		}
-		return mSherlock;
-	}
+    protected final ActionBarSherlock getSherlock() {
+        if (mSherlock == null) {
+            mSherlock = ActionBarSherlock.wrap(this, ActionBarSherlock.FLAG_DELEGATE);
+        }
+        return mSherlock;
+    }
 
-	// /////////////////////////////////////////////////////////////////////////
-	// Action bar and mode
-	// /////////////////////////////////////////////////////////////////////////
 
-	public ActionBar getSupportActionBar() {
-		return getSherlock().getActionBar();
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    // Action bar and mode
+    ///////////////////////////////////////////////////////////////////////////
 
-	public ActionMode startActionMode(ActionMode.Callback callback) {
-		return getSherlock().startActionMode(callback);
-	}
+    public ActionBar getSupportActionBar() {
+        return getSherlock().getActionBar();
+    }
 
-	@Override
-	public void onActionModeStarted(ActionMode mode) {
-	}
+    public ActionMode startActionMode(ActionMode.Callback callback) {
+        return getSherlock().startActionMode(callback);
+    }
 
-	@Override
-	public void onActionModeFinished(ActionMode mode) {
-	}
+    @Override
+    public void onActionModeStarted(ActionMode mode) {}
 
-	// /////////////////////////////////////////////////////////////////////////
-	// General lifecycle/callback dispatching
-	// /////////////////////////////////////////////////////////////////////////
+    @Override
+    public void onActionModeFinished(ActionMode mode) {}
 
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		getSherlock().dispatchConfigurationChanged(newConfig);
-	}
 
-	@Override
-	protected void onPostResume() {
-		super.onPostResume();
-		getSherlock().dispatchPostResume();
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    // General lifecycle/callback dispatching
+    ///////////////////////////////////////////////////////////////////////////
 
-	@Override
-	protected void onPause() {
-		getSherlock().dispatchPause();
-		super.onPause();
-	}
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        getSherlock().dispatchConfigurationChanged(newConfig);
+    }
 
-	@Override
-	protected void onStop() {
-		getSherlock().dispatchStop();
-		super.onStop();
-	}
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        getSherlock().dispatchPostResume();
+    }
 
-	@Override
-	protected void onDestroy() {
-		getSherlock().dispatchDestroy();
-		super.onDestroy();
-	}
+    @Override
+    protected void onPause() {
+        getSherlock().dispatchPause();
+        super.onPause();
+    }
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		getSherlock().dispatchPostCreate(savedInstanceState);
-		super.onPostCreate(savedInstanceState);
-	}
+    @Override
+    protected void onStop() {
+        getSherlock().dispatchStop();
+        super.onStop();
+    }
 
-	@Override
-	protected void onTitleChanged(CharSequence title, int color) {
-		getSherlock().dispatchTitleChanged(title, color);
-		super.onTitleChanged(title, color);
-	}
+    @Override
+    protected void onDestroy() {
+        getSherlock().dispatchDestroy();
+        super.onDestroy();
+    }
 
-	@Override
-	public final boolean onMenuOpened(int featureId, android.view.Menu menu) {
-		if (getSherlock().dispatchMenuOpened(featureId, menu)) {
-			return true;
-		}
-		return super.onMenuOpened(featureId, menu);
-	}
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        getSherlock().dispatchPostCreate(savedInstanceState);
+        super.onPostCreate(savedInstanceState);
+    }
 
-	@Override
-	public void onPanelClosed(int featureId, android.view.Menu menu) {
-		getSherlock().dispatchPanelClosed(featureId, menu);
-		super.onPanelClosed(featureId, menu);
-	}
+    @Override
+    protected void onTitleChanged(CharSequence title, int color) {
+        getSherlock().dispatchTitleChanged(title, color);
+        super.onTitleChanged(title, color);
+    }
 
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (getSherlock().dispatchKeyEvent(event)) {
-			return true;
-		}
-		return super.dispatchKeyEvent(event);
-	}
+    @Override
+    public final boolean onMenuOpened(int featureId, android.view.Menu menu) {
+        if (getSherlock().dispatchMenuOpened(featureId, menu)) {
+            return true;
+        }
+        return super.onMenuOpened(featureId, menu);
+    }
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		getSherlock().dispatchSaveInstanceState(outState);
-	}
+    @Override
+    public void onPanelClosed(int featureId, android.view.Menu menu) {
+        getSherlock().dispatchPanelClosed(featureId, menu);
+        super.onPanelClosed(featureId, menu);
+    }
 
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-		getSherlock().dispatchRestoreInstanceState(savedInstanceState);
-	}
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (getSherlock().dispatchKeyEvent(event)) {
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
+    }
 
-	// /////////////////////////////////////////////////////////////////////////
-	// Native menu handling
-	// /////////////////////////////////////////////////////////////////////////
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getSherlock().dispatchSaveInstanceState(outState);
+    }
 
-	public MenuInflater getSupportMenuInflater() {
-		return getSherlock().getMenuInflater();
-	}
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        getSherlock().dispatchRestoreInstanceState(savedInstanceState);
+    }
 
-	public void invalidateOptionsMenu() {
-		getSherlock().dispatchInvalidateOptionsMenu();
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    // Native menu handling
+    ///////////////////////////////////////////////////////////////////////////
 
-	public void supportInvalidateOptionsMenu() {
-		invalidateOptionsMenu();
-	}
+    public MenuInflater getSupportMenuInflater() {
+        return getSherlock().getMenuInflater();
+    }
 
-	@Override
-	public final boolean onCreateOptionsMenu(android.view.Menu menu) {
-		return getSherlock().dispatchCreateOptionsMenu(menu);
-	}
+    public void invalidateOptionsMenu() {
+        getSherlock().dispatchInvalidateOptionsMenu();
+    }
 
-	@Override
-	public final boolean onPrepareOptionsMenu(android.view.Menu menu) {
-		return getSherlock().dispatchPrepareOptionsMenu(menu);
-	}
+    public void supportInvalidateOptionsMenu() {
+        invalidateOptionsMenu();
+    }
 
-	@Override
-	public final boolean onOptionsItemSelected(android.view.MenuItem item) {
-		return getSherlock().dispatchOptionsItemSelected(item);
-	}
+    @Override
+    public final boolean onCreateOptionsMenu(android.view.Menu menu) {
+        return getSherlock().dispatchCreateOptionsMenu(menu);
+    }
 
-	@Override
-	public void openOptionsMenu() {
-		if (!getSherlock().dispatchOpenOptionsMenu()) {
-			super.openOptionsMenu();
-		}
-	}
+    @Override
+    public final boolean onPrepareOptionsMenu(android.view.Menu menu) {
+        return getSherlock().dispatchPrepareOptionsMenu(menu);
+    }
 
-	@Override
-	public void closeOptionsMenu() {
-		if (!getSherlock().dispatchCloseOptionsMenu()) {
-			super.closeOptionsMenu();
-		}
-	}
+    @Override
+    public final boolean onOptionsItemSelected(android.view.MenuItem item) {
+        return getSherlock().dispatchOptionsItemSelected(item);
+    }
 
-	// /////////////////////////////////////////////////////////////////////////
-	// Sherlock menu handling
-	// /////////////////////////////////////////////////////////////////////////
+    @Override
+    public void openOptionsMenu() {
+        if (!getSherlock().dispatchOpenOptionsMenu()) {
+            super.openOptionsMenu();
+        }
+    }
 
-	@Override
-	public boolean onCreatePanelMenu(int featureId, Menu menu) {
-		if (featureId == Window.FEATURE_OPTIONS_PANEL) {
-			return onCreateOptionsMenu(menu);
-		}
-		return false;
-	}
+    @Override
+    public void closeOptionsMenu() {
+        if (!getSherlock().dispatchCloseOptionsMenu()) {
+            super.closeOptionsMenu();
+        }
+    }
 
-	public boolean onCreateOptionsMenu(Menu menu) {
-		return true;
-	}
 
-	@Override
-	public boolean onPreparePanel(int featureId, View view, Menu menu) {
-		if (featureId == Window.FEATURE_OPTIONS_PANEL) {
-			return onPrepareOptionsMenu(menu);
-		}
-		return false;
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    // Sherlock menu handling
+    ///////////////////////////////////////////////////////////////////////////
 
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		return true;
-	}
+    @Override
+    public boolean onCreatePanelMenu(int featureId, Menu menu) {
+        if (featureId == Window.FEATURE_OPTIONS_PANEL) {
+            return onCreateOptionsMenu(menu);
+        }
+        return false;
+    }
 
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		if (featureId == Window.FEATURE_OPTIONS_PANEL) {
-			return onOptionsItemSelected(item);
-		}
-		return false;
-	}
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
 
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return false;
-	}
+    @Override
+    public boolean onPreparePanel(int featureId, View view, Menu menu) {
+        if (featureId == Window.FEATURE_OPTIONS_PANEL) {
+            return onPrepareOptionsMenu(menu);
+        }
+        return false;
+    }
 
-	// /////////////////////////////////////////////////////////////////////////
-	// Content
-	// /////////////////////////////////////////////////////////////////////////
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return true;
+    }
 
-	@Override
-	public void addContentView(View view, LayoutParams params) {
-		getSherlock().addContentView(view, params);
-	}
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        if (featureId == Window.FEATURE_OPTIONS_PANEL) {
+            return onOptionsItemSelected(item);
+        }
+        return false;
+    }
 
-	@Override
-	public void setContentView(int layoutResId) {
-		getSherlock().setContentView(layoutResId);
-	}
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return false;
+    }
 
-	@Override
-	public void setContentView(View view, LayoutParams params) {
-		getSherlock().setContentView(view, params);
-	}
 
-	@Override
-	public void setContentView(View view) {
-		getSherlock().setContentView(view);
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    // Content
+    ///////////////////////////////////////////////////////////////////////////
 
-	public void requestWindowFeature(long featureId) {
-		getSherlock().requestFeature((int) featureId);
-	}
+    @Override
+    public void addContentView(View view, LayoutParams params) {
+        getSherlock().addContentView(view, params);
+    }
 
-	// /////////////////////////////////////////////////////////////////////////
-	// Progress Indication
-	// /////////////////////////////////////////////////////////////////////////
+    @Override
+    public void setContentView(int layoutResId) {
+        getSherlock().setContentView(layoutResId);
+    }
 
-	public void setSupportProgress(int progress) {
-		getSherlock().setProgress(progress);
-	}
+    @Override
+    public void setContentView(View view, LayoutParams params) {
+        getSherlock().setContentView(view, params);
+    }
 
-	public void setSupportProgressBarIndeterminate(boolean indeterminate) {
-		getSherlock().setProgressBarIndeterminate(indeterminate);
-	}
+    @Override
+    public void setContentView(View view) {
+        getSherlock().setContentView(view);
+    }
 
-	public void setSupportProgressBarIndeterminateVisibility(boolean visible) {
-		getSherlock().setProgressBarIndeterminateVisibility(visible);
-	}
+    public void requestWindowFeature(long featureId) {
+        getSherlock().requestFeature((int)featureId);
+    }
 
-	public void setSupportProgressBarVisibility(boolean visible) {
-		getSherlock().setProgressBarVisibility(visible);
-	}
+    @Override
+    public View findViewById(int id) {
+        getSherlock().ensureActionBar();
+        return super.findViewById(id);
+    }
 
-	public void setSupportSecondaryProgress(int secondaryProgress) {
-		getSherlock().setSecondaryProgress(secondaryProgress);
-	}
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Progress Indication
+    ///////////////////////////////////////////////////////////////////////////
+
+    public void setSupportProgress(int progress) {
+        getSherlock().setProgress(progress);
+    }
+
+    public void setSupportProgressBarIndeterminate(boolean indeterminate) {
+        getSherlock().setProgressBarIndeterminate(indeterminate);
+    }
+
+    public void setSupportProgressBarIndeterminateVisibility(boolean visible) {
+        getSherlock().setProgressBarIndeterminateVisibility(visible);
+    }
+
+    public void setSupportProgressBarVisibility(boolean visible) {
+        getSherlock().setProgressBarVisibility(visible);
+    }
+
+    public void setSupportSecondaryProgress(int secondaryProgress) {
+        getSherlock().setSecondaryProgress(secondaryProgress);
+    }
 }

@@ -9,183 +9,198 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 
 public class MenuWrapper implements Menu {
-	private final android.view.Menu mNativeMenu;
+    private final android.view.Menu mNativeMenu;
 
-	private final WeakHashMap<android.view.MenuItem, MenuItem> mNativeMap = new WeakHashMap<android.view.MenuItem, MenuItem>();
+    private final WeakHashMap<android.view.MenuItem, MenuItem> mNativeMap =
+            new WeakHashMap<android.view.MenuItem, MenuItem>();
 
-	public MenuWrapper(android.view.Menu nativeMenu) {
-		mNativeMenu = nativeMenu;
-	}
 
-	public android.view.Menu unwrap() {
-		return mNativeMenu;
-	}
+    public MenuWrapper(android.view.Menu nativeMenu) {
+        mNativeMenu = nativeMenu;
+    }
 
-	private MenuItem addInternal(android.view.MenuItem nativeItem) {
-		MenuItem item = new MenuItemWrapper(nativeItem);
-		mNativeMap.put(nativeItem, item);
-		return item;
-	}
+    public android.view.Menu unwrap() {
+        return mNativeMenu;
+    }
 
-	@Override
-	public MenuItem add(CharSequence title) {
-		return addInternal(mNativeMenu.add(title));
-	}
+    private MenuItem addInternal(android.view.MenuItem nativeItem) {
+        MenuItem item = new MenuItemWrapper(nativeItem);
+        mNativeMap.put(nativeItem, item);
+        return item;
+    }
 
-	@Override
-	public MenuItem add(int titleRes) {
-		return addInternal(mNativeMenu.add(titleRes));
-	}
+    @Override
+    public MenuItem add(CharSequence title) {
+        return addInternal(mNativeMenu.add(title));
+    }
 
-	@Override
-	public MenuItem add(int groupId, int itemId, int order, CharSequence title) {
-		return addInternal(mNativeMenu.add(groupId, itemId, order, title));
-	}
+    @Override
+    public MenuItem add(int titleRes) {
+        return addInternal(mNativeMenu.add(titleRes));
+    }
 
-	@Override
-	public MenuItem add(int groupId, int itemId, int order, int titleRes) {
-		return addInternal(mNativeMenu.add(groupId, itemId, order, titleRes));
-	}
+    @Override
+    public MenuItem add(int groupId, int itemId, int order, CharSequence title) {
+        return addInternal(mNativeMenu.add(groupId, itemId, order, title));
+    }
 
-	private SubMenu addInternal(android.view.SubMenu nativeSubMenu) {
-		SubMenu subMenu = new SubMenuWrapper(nativeSubMenu);
-		android.view.MenuItem nativeItem = nativeSubMenu.getItem();
-		MenuItem item = subMenu.getItem();
-		mNativeMap.put(nativeItem, item);
-		return subMenu;
-	}
+    @Override
+    public MenuItem add(int groupId, int itemId, int order, int titleRes) {
+        return addInternal(mNativeMenu.add(groupId, itemId, order, titleRes));
+    }
 
-	@Override
-	public SubMenu addSubMenu(CharSequence title) {
-		return addInternal(mNativeMenu.addSubMenu(title));
-	}
+    private SubMenu addInternal(android.view.SubMenu nativeSubMenu) {
+        SubMenu subMenu = new SubMenuWrapper(nativeSubMenu);
+        android.view.MenuItem nativeItem = nativeSubMenu.getItem();
+        MenuItem item = subMenu.getItem();
+        mNativeMap.put(nativeItem, item);
+        return subMenu;
+    }
 
-	@Override
-	public SubMenu addSubMenu(int titleRes) {
-		return addInternal(mNativeMenu.addSubMenu(titleRes));
-	}
+    @Override
+    public SubMenu addSubMenu(CharSequence title) {
+        return addInternal(mNativeMenu.addSubMenu(title));
+    }
 
-	@Override
-	public SubMenu addSubMenu(int groupId, int itemId, int order,
-			CharSequence title) {
-		return addInternal(mNativeMenu
-				.addSubMenu(groupId, itemId, order, title));
-	}
+    @Override
+    public SubMenu addSubMenu(int titleRes) {
+        return addInternal(mNativeMenu.addSubMenu(titleRes));
+    }
 
-	@Override
-	public SubMenu addSubMenu(int groupId, int itemId, int order, int titleRes) {
-		return addInternal(mNativeMenu.addSubMenu(groupId, itemId, order,
-				titleRes));
-	}
+    @Override
+    public SubMenu addSubMenu(int groupId, int itemId, int order, CharSequence title) {
+        return addInternal(mNativeMenu.addSubMenu(groupId, itemId, order, title));
+    }
 
-	@Override
-	public int addIntentOptions(int groupId, int itemId, int order,
-			ComponentName caller, Intent[] specifics, Intent intent, int flags,
-			MenuItem[] outSpecificItems) {
-		int result;
-		if (outSpecificItems != null) {
-			android.view.MenuItem[] nativeOutItems = new android.view.MenuItem[outSpecificItems.length];
-			result = mNativeMenu.addIntentOptions(groupId, itemId, order,
-					caller, specifics, intent, flags, nativeOutItems);
-			for (int i = 0, length = outSpecificItems.length; i < length; i++) {
-				outSpecificItems[i] = new MenuItemWrapper(nativeOutItems[i]);
-			}
-		} else {
-			result = mNativeMenu.addIntentOptions(groupId, itemId, order,
-					caller, specifics, intent, flags, null);
-		}
-		return result;
-	}
+    @Override
+    public SubMenu addSubMenu(int groupId, int itemId, int order, int titleRes) {
+        return addInternal(mNativeMenu.addSubMenu(groupId, itemId, order, titleRes));
+    }
 
-	@Override
-	public void removeItem(int id) {
-		mNativeMenu.removeItem(id);
-	}
+    @Override
+    public int addIntentOptions(int groupId, int itemId, int order, ComponentName caller, Intent[] specifics, Intent intent, int flags, MenuItem[] outSpecificItems) {
+        int result;
+        if (outSpecificItems != null) {
+            android.view.MenuItem[] nativeOutItems = new android.view.MenuItem[outSpecificItems.length];
+            result = mNativeMenu.addIntentOptions(groupId, itemId, order, caller, specifics, intent, flags, nativeOutItems);
+            for (int i = 0, length = outSpecificItems.length; i < length; i++) {
+                outSpecificItems[i] = new MenuItemWrapper(nativeOutItems[i]);
+            }
+        } else {
+            result = mNativeMenu.addIntentOptions(groupId, itemId, order, caller, specifics, intent, flags, null);
+        }
+        return result;
+    }
 
-	@Override
-	public void removeGroup(int groupId) {
-		mNativeMenu.removeGroup(groupId);
-	}
+    @Override
+    public void removeItem(int id) {
+        mNativeMap.remove(mNativeMenu.findItem(id));
+        mNativeMenu.removeItem(id);
+    }
 
-	@Override
-	public void clear() {
-		mNativeMap.clear();
-		mNativeMenu.clear();
-	}
+    @Override
+    public void removeGroup(int groupId) {
+        for (int i = 0; i < mNativeMenu.size(); i++) {
+            final android.view.MenuItem item = mNativeMenu.getItem(i);
+            if (item.getGroupId() == groupId) {
+                mNativeMap.remove(item);
+            }
+        }
+        mNativeMenu.removeGroup(groupId);
+    }
 
-	@Override
-	public void setGroupCheckable(int group, boolean checkable,
-			boolean exclusive) {
-		mNativeMenu.setGroupCheckable(group, checkable, exclusive);
-	}
+    @Override
+    public void clear() {
+        mNativeMap.clear();
+        mNativeMenu.clear();
+    }
 
-	@Override
-	public void setGroupVisible(int group, boolean visible) {
-		mNativeMenu.setGroupVisible(group, visible);
-	}
+    public void invalidate() {
+        if (mNativeMap.isEmpty()) return;
 
-	@Override
-	public void setGroupEnabled(int group, boolean enabled) {
-		mNativeMenu.setGroupEnabled(group, enabled);
-	}
+        final WeakHashMap<android.view.MenuItem, MenuItem> menuMapCopy = new WeakHashMap<android.view.MenuItem, MenuItem>(mNativeMap.size());
 
-	@Override
-	public boolean hasVisibleItems() {
-		return mNativeMenu.hasVisibleItems();
-	}
+        for (int i = 0; i < mNativeMenu.size(); i++) {
+            final android.view.MenuItem item = mNativeMenu.getItem(i);
+            menuMapCopy.put(item, mNativeMap.get(item));
+        }
 
-	@Override
-	public MenuItem findItem(int id) {
-		android.view.MenuItem nativeItem = mNativeMenu.findItem(id);
-		return findItem(nativeItem);
-	}
+        mNativeMap.clear();
+        mNativeMap.putAll(menuMapCopy);
+    }
 
-	public MenuItem findItem(android.view.MenuItem nativeItem) {
-		if (nativeItem == null) {
-			return null;
-		}
+    @Override
+    public void setGroupCheckable(int group, boolean checkable, boolean exclusive) {
+        mNativeMenu.setGroupCheckable(group, checkable, exclusive);
+    }
 
-		MenuItem wrapped = mNativeMap.get(nativeItem);
-		if (wrapped != null) {
-			return wrapped;
-		}
+    @Override
+    public void setGroupVisible(int group, boolean visible) {
+        mNativeMenu.setGroupVisible(group, visible);
+    }
 
-		return addInternal(nativeItem);
-	}
+    @Override
+    public void setGroupEnabled(int group, boolean enabled) {
+        mNativeMenu.setGroupEnabled(group, enabled);
+    }
 
-	@Override
-	public int size() {
-		return mNativeMenu.size();
-	}
+    @Override
+    public boolean hasVisibleItems() {
+        return mNativeMenu.hasVisibleItems();
+    }
 
-	@Override
-	public MenuItem getItem(int index) {
-		android.view.MenuItem nativeItem = mNativeMenu.getItem(index);
-		return findItem(nativeItem);
-	}
+    @Override
+    public MenuItem findItem(int id) {
+        android.view.MenuItem nativeItem = mNativeMenu.findItem(id);
+        return findItem(nativeItem);
+    }
 
-	@Override
-	public void close() {
-		mNativeMenu.close();
-	}
+    public MenuItem findItem(android.view.MenuItem nativeItem) {
+        if (nativeItem == null) {
+            return null;
+        }
 
-	@Override
-	public boolean performShortcut(int keyCode, KeyEvent event, int flags) {
-		return mNativeMenu.performShortcut(keyCode, event, flags);
-	}
+        MenuItem wrapped = mNativeMap.get(nativeItem);
+        if (wrapped != null) {
+            return wrapped;
+        }
 
-	@Override
-	public boolean isShortcutKey(int keyCode, KeyEvent event) {
-		return mNativeMenu.isShortcutKey(keyCode, event);
-	}
+        return addInternal(nativeItem);
+    }
 
-	@Override
-	public boolean performIdentifierAction(int id, int flags) {
-		return mNativeMenu.performIdentifierAction(id, flags);
-	}
+    @Override
+    public int size() {
+        return mNativeMenu.size();
+    }
 
-	@Override
-	public void setQwertyMode(boolean isQwerty) {
-		mNativeMenu.setQwertyMode(isQwerty);
-	}
+    @Override
+    public MenuItem getItem(int index) {
+        android.view.MenuItem nativeItem = mNativeMenu.getItem(index);
+        return findItem(nativeItem);
+    }
+
+    @Override
+    public void close() {
+        mNativeMenu.close();
+    }
+
+    @Override
+    public boolean performShortcut(int keyCode, KeyEvent event, int flags) {
+        return mNativeMenu.performShortcut(keyCode, event, flags);
+    }
+
+    @Override
+    public boolean isShortcutKey(int keyCode, KeyEvent event) {
+        return mNativeMenu.isShortcutKey(keyCode, event);
+    }
+
+    @Override
+    public boolean performIdentifierAction(int id, int flags) {
+        return mNativeMenu.performIdentifierAction(id, flags);
+    }
+
+    @Override
+    public void setQwertyMode(boolean isQwerty) {
+        mNativeMenu.setQwertyMode(isQwerty);
+    }
 }
